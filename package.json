@@ -7,7 +7,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --coverage",
     "lint": "eslint . --ext .ts --ext .tsx",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^8.0.0"
   }
 }
