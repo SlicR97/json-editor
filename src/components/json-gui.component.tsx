@@ -1,7 +1,11 @@
-const JsonGui = () => {
+type Props = {
+  json: string
+}
+
+const JsonGui = (props: Props) => {
   return (
     <div>
-      <p>GUI</p>
+      <p>{props.json}</p>
     </div>
   )
 }

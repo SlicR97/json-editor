@@ -4,3 +4,4 @@
 yarn test
 yarn lint
 yarn prettier-format
+git add .
