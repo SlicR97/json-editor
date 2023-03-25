@@ -1,11 +1,21 @@
 import './App.css'
-import CodeEditor from './components/editor.component'
+
+import { Tab, Tabs } from "react-bootstrap";
+import JsonGui from "./components/json-gui.component";
+import JsonEditor from "./components/json-editor.component";
 
 function App() {
   return (
-    <div style={{ height: '100%' }}>
-      <CodeEditor />
-    </div>
+    <Tabs
+      defaultActiveKey="editor"
+    >
+      <Tab title="GUI" eventKey="gui">
+        <JsonGui />
+      </Tab>
+      <Tab title="Editor" eventKey="editor">
+        <JsonEditor />
+      </Tab>
+    </Tabs>
   )
 }
 

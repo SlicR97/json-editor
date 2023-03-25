@@ -1,7 +1,7 @@
 import Editor from '@monaco-editor/react'
 import { defaultValue } from '../debug'
 
-const CodeEditor = () => {
+const JsonEditor = () => {
   return (
     <Editor
       theme="vs-dark"
@@ -12,4 +12,4 @@ const CodeEditor = () => {
   )
 }
 
-export default CodeEditor
+export default JsonEditor
