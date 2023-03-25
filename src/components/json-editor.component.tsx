@@ -1,13 +1,18 @@
 import Editor from '@monaco-editor/react'
-import { defaultValue } from '../debug'
 
-const JsonEditor = () => {
+type Props = {
+  json: string
+  onChange: (json: string | undefined) => void
+}
+
+const JsonEditor = (props: Props) => {
   return (
     <Editor
       theme="vs-dark"
       height="100%"
       defaultLanguage="json"
-      defaultValue={defaultValue}
+      defaultValue={props.json}
+      onChange={(v) => props.onChange(v)}
     />
   )
 }
