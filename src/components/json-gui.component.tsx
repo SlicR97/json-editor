@@ -1,11 +1,14 @@
+import { Json } from '../types/jobject.type'
+import { toJsonString } from '../parser/to-json-string'
+
 type Props = {
-  json: string
+  json: Json
 }
 
 const JsonGui = (props: Props) => {
   return (
     <div>
-      <p>{props.json}</p>
+      <p>{toJsonString(props.json)}</p>
     </div>
   )
 }
