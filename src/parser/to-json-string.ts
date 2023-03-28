@@ -9,5 +9,9 @@ export const toJsonString = (json: Json): string => {
     return `${json.value}`
   }
 
+  if (json.type === 'null') {
+    return 'null'
+  }
+
   return ''
 }

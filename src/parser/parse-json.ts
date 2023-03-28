@@ -24,6 +24,10 @@ const element = (parseable: Parseable<Token>): Json => {
     return boolean(parseable)
   }
 
+  if (parseable.peek().type === TokenType.null) {
+    return nullValue(parseable)
+  }
+
   return {
     type: 'null',
   }
@@ -42,5 +46,12 @@ const boolean = (parseable: Parseable<Token>): Json => {
   return {
     type: 'boolean',
     value: token.type === TokenType.true,
+  }
+}
+
+const nullValue = (parseable: Parseable<Token>): Json => {
+  parseable.advance()
+  return {
+    type: 'null',
   }
 }
