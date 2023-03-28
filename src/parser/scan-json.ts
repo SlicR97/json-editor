@@ -5,6 +5,7 @@ import { TokenType } from '../types/token-type.enum'
 const identifiers: Record<string, TokenType> = {
   true: TokenType.true,
   false: TokenType.false,
+  null: TokenType.null,
 }
 
 export const scanJson = (json: string): Token[] => {

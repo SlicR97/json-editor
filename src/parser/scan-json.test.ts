@@ -85,6 +85,15 @@ describe('scanJson', () => {
       ])
     })
 
+    it("returns a null token when the string is 'null'", () => {
+      expect(scanJson('null')).toEqual([
+        {
+          type: TokenType.null,
+          value: 'null',
+        },
+      ])
+    })
+
     it('returns null when the string is not a matching identifier', () => {
       expect(scanJson('abc')).toEqual([])
     })

@@ -3,4 +3,5 @@ export enum TokenType {
   eof = 'eof',
   true = 'true',
   false = 'false',
+  null = 'null',
 }

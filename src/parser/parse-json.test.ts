@@ -44,7 +44,20 @@ describe('parseJson', () => {
     })
   })
 
-  it('does not parse if the token is not a number', () => {
+  it('parses a null value', () => {
+    const tokens = [
+      {
+        type: TokenType.null,
+        value: '',
+      },
+    ]
+    const json = parseJson(tokens)
+    expect(json).toEqual({
+      type: 'null',
+    })
+  })
+
+  it('does not parse if the token is not recognizable', () => {
     const tokens = [
       {
         type: TokenType.eof,
