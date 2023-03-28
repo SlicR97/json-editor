@@ -5,13 +5,18 @@ import JsonGui from './components/json-gui.component'
 import JsonEditor from './components/json-editor.component'
 import { useState } from 'react'
 import { defaultValue } from './debug'
+import { scanJson } from './parser/scan-json'
+import { parseJson } from './parser/parse-json'
+import { Json } from './types/jobject.type'
 
 function App() {
-  const [json, setJson] = useState(defaultValue)
+  const [json, setJson] = useState<Json>(defaultValue)
 
   const onChange = (v: string | undefined) => {
     if (v) {
-      setJson(v)
+      const tokens = scanJson(v)
+      const json = parseJson(tokens)
+      setJson(json)
     }
   }
 
