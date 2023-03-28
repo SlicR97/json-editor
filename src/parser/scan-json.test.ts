@@ -65,4 +65,28 @@ describe('scanJson', () => {
       ])
     })
   })
+
+  describe('parseIdentifier', () => {
+    it('returns a true token when the string is true', () => {
+      expect(scanJson('true')).toEqual([
+        {
+          type: TokenType.true,
+          value: 'true',
+        },
+      ])
+    })
+
+    it('returns a false token when the string is false', () => {
+      expect(scanJson('false')).toEqual([
+        {
+          type: TokenType.false,
+          value: 'false',
+        },
+      ])
+    })
+
+    it('returns null when the string is not a matching identifier', () => {
+      expect(scanJson('abc')).toEqual([])
+    })
+  })
 })

@@ -1,5 +1,5 @@
 import { toJsonString } from './to-json-string'
-import { JNull, JNumber } from '../types/jobject.type'
+import { JBoolean, JNull, JNumber } from '../types/jobject.type'
 
 describe('toJsonString', () => {
   it('returns a string when the json is a number', () => {
@@ -8,6 +8,22 @@ describe('toJsonString', () => {
       value: '123',
     }
     expect(toJsonString(json)).toEqual('123')
+  })
+
+  it("returns 'true' when the json is true", () => {
+    const json: JBoolean = {
+      type: 'boolean',
+      value: true,
+    }
+    expect(toJsonString(json)).toEqual('true')
+  })
+
+  it("returns 'false' when the json is false", () => {
+    const json: JBoolean = {
+      type: 'boolean',
+      value: false,
+    }
+    expect(toJsonString(json)).toEqual('false')
   })
 
   it('returns an empty string when the json is null', () => {
