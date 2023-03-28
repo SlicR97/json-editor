@@ -12,6 +12,7 @@
     "react-app/jest"
   ],
   "rules": {
-    "@typescript-eslint/no-namespace": 0
+    "@typescript-eslint/no-namespace": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
   }
 }

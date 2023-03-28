@@ -17,6 +17,13 @@ const element = (parseable: Parseable<Token>): Json => {
     return number(parseable)
   }
 
+  if (
+    parseable.peek().type === TokenType.true ||
+    parseable.peek().type === TokenType.false
+  ) {
+    return boolean(parseable)
+  }
+
   return {
     type: 'null',
   }
@@ -27,5 +34,13 @@ const number = (parseable: Parseable<Token>): JNumber => {
   return {
     type: 'number',
     value: token.value,
+  }
+}
+
+const boolean = (parseable: Parseable<Token>): Json => {
+  const token = parseable.advance()!
+  return {
+    type: 'boolean',
+    value: token.type === TokenType.true,
   }
 }

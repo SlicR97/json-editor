@@ -16,6 +16,34 @@ describe('parseJson', () => {
     })
   })
 
+  it('parses a true value', () => {
+    const tokens = [
+      {
+        type: TokenType.true,
+        value: '',
+      },
+    ]
+    const json = parseJson(tokens)
+    expect(json).toEqual({
+      type: 'boolean',
+      value: true,
+    })
+  })
+
+  it('parses a false value', () => {
+    const tokens = [
+      {
+        type: TokenType.false,
+        value: '',
+      },
+    ]
+    const json = parseJson(tokens)
+    expect(json).toEqual({
+      type: 'boolean',
+      value: false,
+    })
+  })
+
   it('does not parse if the token is not a number', () => {
     const tokens = [
       {

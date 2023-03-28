@@ -5,5 +5,9 @@ export const toJsonString = (json: Json): string => {
     return `${json.value}`
   }
 
+  if (json.type === 'boolean') {
+    return `${json.value}`
+  }
+
   return ''
 }
