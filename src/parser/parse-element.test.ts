@@ -89,4 +89,22 @@ describe('parseElement', () => {
       value: [],
     })
   })
+
+  it('parses an object when the first token is an open brace', () => {
+    const tokens = [
+      {
+        type: TokenType.openBrace,
+        value: '',
+      },
+      {
+        type: TokenType.closeBrace,
+        value: '',
+      },
+    ]
+    const json = parseElement(new TokenParseable(tokens))
+    expect(json).toEqual({
+      type: 'object',
+      value: {},
+    })
+  })
 })
