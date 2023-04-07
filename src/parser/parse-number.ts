@@ -1,8 +1,7 @@
-import { Parseable } from '../util/parseable'
-import { Token } from '../types/token.type'
 import { JNumber } from '../types/jobject.type'
+import { TokenParseable } from '../util/token-parseable'
 
-export const parseNumber = (parseable: Parseable<Token>): JNumber => {
+export const parseNumber = (parseable: TokenParseable): JNumber => {
   const token = parseable.advance()!
   return {
     type: 'number',

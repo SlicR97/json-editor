@@ -2,6 +2,61 @@ import { scanJson } from './scan-json'
 import { TokenType } from '../types/token-type.enum'
 
 describe('scanJson', () => {
+  it('scans an empty array', () => {
+    expect(scanJson('[]')).toEqual([
+      {
+        type: TokenType.openBracket,
+        value: '[',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: ']',
+      },
+    ])
+  })
+
+  it('scans an array with a single string', () => {
+    expect(scanJson('["abc"]')).toEqual([
+      {
+        type: TokenType.openBracket,
+        value: '[',
+      },
+      {
+        type: TokenType.string,
+        value: 'abc',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: ']',
+      },
+    ])
+  })
+
+  it('scans an array with multiple elements', () => {
+    expect(scanJson('["abc", 123]')).toEqual([
+      {
+        type: TokenType.openBracket,
+        value: '[',
+      },
+      {
+        type: TokenType.string,
+        value: 'abc',
+      },
+      {
+        type: TokenType.comma,
+        value: ',',
+      },
+      {
+        type: TokenType.number,
+        value: '123',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: ']',
+      },
+    ])
+  })
+
   it('returns an empty array when the string is empty', () => {
     expect(scanJson('')).toEqual([])
   })

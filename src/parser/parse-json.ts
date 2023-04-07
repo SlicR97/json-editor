@@ -1,14 +1,10 @@
 import { Token } from '../types/token.type'
 import { Json } from '../types/jobject.type'
-import { TokenType } from '../types/token-type.enum'
-import { Parseable } from '../util/parseable'
 import { parseElement } from './parse-element'
+import { TokenParseable } from '../util/token-parseable'
 
 export const parseJson = (json: Token[]): Json => {
-  const parseable = new Parseable(json, {
-    type: TokenType.eof,
-    value: '',
-  })
+  const parseable = new TokenParseable(json)
 
   return parseElement(parseable)
 }

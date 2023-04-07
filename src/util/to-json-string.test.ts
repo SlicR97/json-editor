@@ -47,11 +47,48 @@ describe('toJsonString', () => {
     expect(toJsonString(json)).toEqual('"hello"')
   })
 
-  //TODO: Remove once all types are implemented
-  it('returns an empty string when the json is not a number, boolean, or null', () => {
+  it('returns an array string when given an empty array', () => {
     const json: JArray = {
       type: 'array',
       value: [],
+    }
+    expect(toJsonString(json)).toEqual('[\n]')
+  })
+
+  it('returns an array string when given an array with one item', () => {
+    const json: JArray = {
+      type: 'array',
+      value: [
+        {
+          type: 'number',
+          value: '1',
+        },
+      ],
+    }
+    expect(toJsonString(json)).toEqual('[\n\t1\n]')
+  })
+
+  it('returns an array string when given an array with multiple items', () => {
+    const json: JArray = {
+      type: 'array',
+      value: [
+        {
+          type: 'number',
+          value: '1',
+        },
+        {
+          type: 'string',
+          value: 'hello',
+        },
+      ],
+    }
+    expect(toJsonString(json)).toEqual('[\n\t1,\n\t"hello"\n]')
+  })
+
+  it('returns an empty string when given an unmatching type', () => {
+    const json: any = {
+      type: 'unknown',
+      value: '1',
     }
     expect(toJsonString(json)).toEqual('')
   })

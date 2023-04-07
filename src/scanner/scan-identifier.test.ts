@@ -1,10 +1,10 @@
-import { Parseable } from '../util/parseable'
 import { TokenType } from '../types/token-type.enum'
 import { scanIdentifier } from './scan-identifier'
+import { StringParseable } from '../util/string-parseable'
 
 describe('scanIdentifier', () => {
   it('returns a true token when the string is true', () => {
-    const parseable = new Parseable(['t', 'r', 'u', 'e'], '\0')
+    const parseable = new StringParseable('true')
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.true,
       value: 'true',
@@ -12,7 +12,7 @@ describe('scanIdentifier', () => {
   })
 
   it('returns a false token when the string is false', () => {
-    const parseable = new Parseable(['f', 'a', 'l', 's', 'e'], '\0')
+    const parseable = new StringParseable('false')
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.false,
       value: 'false',
@@ -20,7 +20,7 @@ describe('scanIdentifier', () => {
   })
 
   it("returns a null token when the string is 'null'", () => {
-    const parseable = new Parseable(['n', 'u', 'l', 'l'], '\0')
+    const parseable = new StringParseable('null')
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.null,
       value: 'null',
@@ -28,7 +28,7 @@ describe('scanIdentifier', () => {
   })
 
   it('throws an error when the string is not a matching identifier', () => {
-    const parseable = new Parseable(['a', 'b', 'c'], '\0')
+    const parseable = new StringParseable('abc')
     expect(() => scanIdentifier(parseable)).toThrow(
       'Unexpected identifier: abc',
     )

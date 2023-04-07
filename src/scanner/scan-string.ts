@@ -1,9 +1,9 @@
-import { Parseable } from '../util/parseable'
 import { Token } from '../types/token.type'
 import { isDigit } from '../util/is-digit'
 import { TokenType } from '../types/token-type.enum'
+import { StringParseable } from '../util/string-parseable'
 
-export const scanString = (parseable: Parseable<string>): Token => {
+export const scanString = (parseable: StringParseable): Token => {
   const openQuote = parseable.advance()
   if (openQuote !== '"') {
     throw new Error('Expected open quote')

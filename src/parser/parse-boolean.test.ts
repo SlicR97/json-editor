@@ -1,6 +1,6 @@
 import { parseBoolean } from './parse-boolean'
-import { Parseable } from '../util/parseable'
 import { TokenType } from '../types/token-type.enum'
+import { TokenParseable } from '../util/token-parseable'
 
 describe('parseBoolean', () => {
   it('parses a true value', () => {
@@ -10,9 +10,7 @@ describe('parseBoolean', () => {
         value: '',
       },
     ]
-    const json = parseBoolean(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseBoolean(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: true,
@@ -26,9 +24,7 @@ describe('parseBoolean', () => {
         value: '',
       },
     ]
-    const json = parseBoolean(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseBoolean(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: false,

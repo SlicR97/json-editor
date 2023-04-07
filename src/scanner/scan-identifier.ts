@@ -1,7 +1,7 @@
 import { Token } from '../types/token.type'
 import { isAlpha } from '../util/is-alpha'
 import { TokenType } from '../types/token-type.enum'
-import { Parseable } from '../util/parseable'
+import { StringParseable } from '../util/string-parseable'
 
 const identifiers: Record<string, TokenType> = {
   true: TokenType.true,
@@ -9,7 +9,7 @@ const identifiers: Record<string, TokenType> = {
   null: TokenType.null,
 }
 
-export const scanIdentifier = (parseable: Parseable<string>): Token => {
+export const scanIdentifier = (parseable: StringParseable): Token => {
   while (isAlpha(parseable.peek())) {
     parseable.advance()
   }

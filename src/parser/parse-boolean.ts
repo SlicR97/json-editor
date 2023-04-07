@@ -1,9 +1,8 @@
-import { Parseable } from '../util/parseable'
-import { Token } from '../types/token.type'
 import { Json } from '../types/jobject.type'
 import { TokenType } from '../types/token-type.enum'
+import { TokenParseable } from '../util/token-parseable'
 
-export const parseBoolean = (parseable: Parseable<Token>): Json => {
+export const parseBoolean = (parseable: TokenParseable): Json => {
   const token = parseable.advance()!
   return {
     type: 'boolean',
