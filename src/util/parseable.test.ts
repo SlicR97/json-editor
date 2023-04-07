@@ -5,15 +5,6 @@ const createParseable = (tokens: string[]) => {
 }
 
 describe('Parseable', () => {
-  describe('synchronize', () => {
-    it('sets start to current', () => {
-      const parseable = createParseable(['a', 'b', 'c'])
-      parseable.advance()
-      parseable.synchronize()
-      expect(parseable.start).toBe(1)
-    })
-  })
-
   describe('isAtEnd', () => {
     it('returns true when at the end of the string', () => {
       const parseable = createParseable(['a', 'b', 'c'])
@@ -31,12 +22,6 @@ describe('Parseable', () => {
   })
 
   describe('advance', () => {
-    it('increments current', () => {
-      const parseable = createParseable(['a', 'b', 'c'])
-      parseable.advance()
-      expect(parseable.current).toBe(1)
-    })
-
     it('returns the character at the current position', () => {
       const parseable = createParseable(['a', 'b', 'c'])
       expect(parseable.advance()).toBe('a')

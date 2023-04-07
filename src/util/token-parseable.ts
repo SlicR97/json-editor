@@ -6,7 +6,12 @@ export class TokenParseable extends Parseable<Token> {
   constructor(input: Token[]) {
     super(
       input,
-      { type: TokenType.eof, value: '' },
+      {
+        type: TokenType.eof,
+        value: '',
+        line: 0,
+        column: 0,
+      },
       (a, b) => a.type === b.type,
     )
   }
@@ -16,7 +21,15 @@ export class TokenParseable extends Parseable<Token> {
 
   override consume(value: Token | TokenType, message: string): Token {
     if (Object.values(TokenType).includes(value as TokenType)) {
-      return super.consume({ type: value as TokenType, value: '' }, message)
+      return super.consume(
+        {
+          type: value as TokenType,
+          value: '',
+          line: 0,
+          column: 0,
+        },
+        message,
+      )
     }
 
     return super.consume(value as Token, message)

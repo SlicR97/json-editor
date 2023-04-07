@@ -13,6 +13,8 @@ describe('toJsonString', () => {
     const json: JNumber = {
       type: 'number',
       value: '123',
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('123')
   })
@@ -21,6 +23,8 @@ describe('toJsonString', () => {
     const json: JBoolean = {
       type: 'boolean',
       value: true,
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('true')
   })
@@ -29,6 +33,8 @@ describe('toJsonString', () => {
     const json: JBoolean = {
       type: 'boolean',
       value: false,
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('false')
   })
@@ -36,6 +42,8 @@ describe('toJsonString', () => {
   it("returns 'null' when the json is null", () => {
     const json: JNull = {
       type: 'null',
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('null')
   })
@@ -44,6 +52,8 @@ describe('toJsonString', () => {
     const json: JString = {
       type: 'string',
       value: 'hello',
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('"hello"')
   })
@@ -52,6 +62,8 @@ describe('toJsonString', () => {
     const json: JArray = {
       type: 'array',
       value: [],
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('[]')
   })
@@ -63,8 +75,12 @@ describe('toJsonString', () => {
         {
           type: 'number',
           value: '1',
+          line: 1,
+          column: 2,
         },
       ],
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('[\n\t1\n]')
   })
@@ -76,19 +92,29 @@ describe('toJsonString', () => {
         {
           type: 'number',
           value: '1',
+          line: 1,
+          column: 2,
         },
         {
           type: 'string',
           value: 'hello',
+          line: 1,
+          column: 4,
         },
         {
           type: 'boolean',
           value: true,
+          line: 1,
+          column: 11,
         },
         {
           type: 'null',
+          line: 1,
+          column: 16,
         },
       ],
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual(
       '[\n\t1,\n\t"hello",\n\ttrue,\n\tnull\n]',
@@ -107,6 +133,8 @@ describe('toJsonString', () => {
     const json: JObject = {
       type: 'object',
       value: {},
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('{\n}')
   })
@@ -118,8 +146,12 @@ describe('toJsonString', () => {
         hello: {
           type: 'string',
           value: 'world',
+          line: 1,
+          column: 10,
         },
       },
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual('{\n\t"hello": "world"\n}')
   })
@@ -131,12 +163,18 @@ describe('toJsonString', () => {
         hello: {
           type: 'string',
           value: 'world',
+          line: 1,
+          column: 10,
         },
         foo: {
           type: 'number',
           value: '123',
+          line: 1,
+          column: 21,
         },
       },
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual(
       '{\n\t"hello": "world",\n\t"foo": 123\n}',
@@ -150,6 +188,8 @@ describe('toJsonString', () => {
         hello: {
           type: 'string',
           value: 'world',
+          line: 1,
+          column: 10,
         },
         foo: {
           type: 'object',
@@ -157,10 +197,16 @@ describe('toJsonString', () => {
             bar: {
               type: 'number',
               value: '123',
+              line: 1,
+              column: 32,
             },
           },
+          line: 1,
+          column: 21,
         },
       },
+      line: 1,
+      column: 1,
     }
     expect(toJsonString(json)).toEqual(
       '{\n\t"hello": "world",\n\t"foo": {\n\t\t"bar": 123\n\t}\n}',
@@ -174,27 +220,41 @@ describe('toJsonString', () => {
         string: {
           type: 'string',
           value: 'world',
+          line: 1,
+          column: 10,
         },
         number: {
           type: 'number',
           value: '123',
+          line: 1,
+          column: 21,
         },
         true: {
           type: 'boolean',
           value: true,
+          line: 1,
+          column: 32,
         },
         false: {
           type: 'boolean',
           value: false,
+          line: 1,
+          column: 38,
         },
         null: {
           type: 'null',
+          line: 1,
+          column: 45,
         },
         array: {
           type: 'array',
           value: [],
+          line: 1,
+          column: 51,
         },
       },
+      line: 1,
+      column: 1,
     }
 
     expect(toJsonString(json)).toEqual(

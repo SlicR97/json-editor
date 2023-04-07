@@ -34,7 +34,5 @@ export const parseElement = (parseable: TokenParseable): Json => {
     return parseObject(parseable)
   }
 
-  return {
-    type: 'null',
-  }
+  throw new Error('Expected a value')
 }

@@ -7,10 +7,14 @@ describe('scanJson', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 2,
       },
     ])
   })
@@ -20,14 +24,20 @@ describe('scanJson', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 3,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 7,
       },
     ])
   })
@@ -37,22 +47,32 @@ describe('scanJson', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 3,
       },
       {
         type: TokenType.comma,
         value: ',',
+        line: 1,
+        column: 7,
       },
       {
         type: TokenType.number,
         value: '123',
+        line: 1,
+        column: 9,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 12,
       },
     ])
   })
@@ -62,30 +82,44 @@ describe('scanJson', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 3,
       },
       {
         type: TokenType.comma,
         value: ',',
+        line: 1,
+        column: 7,
       },
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 9,
       },
       {
         type: TokenType.number,
         value: '123',
+        line: 1,
+        column: 10,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 13,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 14,
       },
     ])
   })
@@ -103,6 +137,8 @@ describe('scanJson', () => {
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 2,
       },
     ])
   })
@@ -112,6 +148,19 @@ describe('scanJson', () => {
       {
         type: TokenType.number,
         value: '123',
+        line: 1,
+        column: 1,
+      },
+    ])
+  })
+
+  it('ignores whitespace', () => {
+    expect(scanJson('\n\n\t\r\f 123 ')).toEqual([
+      {
+        type: TokenType.number,
+        value: '123',
+        line: 3,
+        column: 3,
       },
     ])
   })
@@ -121,6 +170,8 @@ describe('scanJson', () => {
       {
         type: TokenType.true,
         value: 'true',
+        line: 1,
+        column: 1,
       },
     ])
   })
@@ -130,6 +181,8 @@ describe('scanJson', () => {
       {
         type: TokenType.false,
         value: 'false',
+        line: 1,
+        column: 1,
       },
     ])
   })
@@ -139,6 +192,8 @@ describe('scanJson', () => {
       {
         type: TokenType.null,
         value: 'null',
+        line: 1,
+        column: 1,
       },
     ])
   })
@@ -148,23 +203,37 @@ describe('scanJson', () => {
       {
         type: TokenType.openBrace,
         value: '{',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'a',
+        line: 1,
+        column: 3,
       },
       {
         type: TokenType.colon,
         value: ':',
+        line: 1,
+        column: 5,
       },
       {
         type: TokenType.number,
         value: '123',
+        line: 1,
+        column: 7,
       },
       {
         type: TokenType.closeBrace,
         value: '}',
+        line: 1,
+        column: 10,
       },
     ])
+  })
+
+  it('throws if it encounters an unknown character', () => {
+    expect(() => scanJson('\\abc')).toThrow()
   })
 })

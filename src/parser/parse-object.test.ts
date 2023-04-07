@@ -1,49 +1,23 @@
-import { TokenType } from '../types/token-type.enum'
 import { parseObject } from './parse-object'
 import { TokenParseable } from '../util/token-parseable'
+import { scanJson } from '../scanner/scan-json'
 
 describe('parseObject', () => {
   it('parses an empty object', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{}'
+    const tokens = scanJson(str)
     const json = parseObject(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
       value: {},
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an object with a single key-value pair', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{"abc":123}'
+    const tokens = scanJson(str)
     const json = parseObject(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
@@ -51,50 +25,18 @@ describe('parseObject', () => {
         abc: {
           type: 'number',
           value: '123',
+          line: 1,
+          column: 8,
         },
       },
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an object with multiple key-value pairs', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.comma,
-        value: ',',
-      },
-      {
-        type: TokenType.string,
-        value: 'def',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '456',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{"abc":123,"def":456}'
+    const tokens = scanJson(str)
     const json = parseObject(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
@@ -102,54 +44,24 @@ describe('parseObject', () => {
         abc: {
           type: 'number',
           value: '123',
+          line: 1,
+          column: 8,
         },
         def: {
           type: 'number',
           value: '456',
+          line: 1,
+          column: 18,
         },
       },
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an object with nested objects', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'def',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{"abc":{"def":123}}'
+    const tokens = scanJson(str)
     const json = parseObject(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
@@ -160,44 +72,22 @@ describe('parseObject', () => {
             def: {
               type: 'number',
               value: '123',
+              line: 1,
+              column: 15,
             },
           },
+          line: 1,
+          column: 8,
         },
       },
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an object with nested arrays', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.openBracket,
-        value: '[',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.closeBracket,
-        value: ']',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{"abc":[123]}'
+    const tokens = scanJson(str)
     const json = parseObject(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
@@ -208,96 +98,46 @@ describe('parseObject', () => {
             {
               type: 'number',
               value: '123',
+              line: 1,
+              column: 9,
             },
           ],
+          line: 1,
+          column: 8,
         },
       },
+      line: 1,
+      column: 1,
     })
   })
 
   it('throws an error if the first token is not an open brace', () => {
-    const tokens = [
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-    ]
+    const str = '123'
+    const tokens = scanJson(str)
     expect(() => parseObject(new TokenParseable(tokens))).toThrow(
       'Expected "{" at start of object',
     )
   })
 
   it('throws an error if the last token is not a close brace', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: '123',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-    ]
+    const str = '{"abc":123'
+    const tokens = scanJson(str)
     expect(() => parseObject(new TokenParseable(tokens))).toThrow(
       'Expected "}" at end of object',
     )
   })
 
   it('throws an error if the key is not a string', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.colon,
-        value: ':',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{123:123}'
+    const tokens = scanJson(str)
     expect(() => parseObject(new TokenParseable(tokens))).toThrow(
       'Expected string key',
     )
   })
 
   it('throws an error if the key is not followed by a colon', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '{',
-      },
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-      {
-        type: TokenType.number,
-        value: '123',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '}',
-      },
-    ]
+    const str = '{"abc"123}'
+    const tokens = scanJson(str)
     expect(() => parseObject(new TokenParseable(tokens))).toThrow(
       'Expected ":" after key',
     )

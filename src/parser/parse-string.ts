@@ -6,5 +6,7 @@ export const parseString = (parseable: TokenParseable): Json => {
   return {
     type: 'string',
     value: token.value,
+    line: token.line,
+    column: token.column,
   }
 }

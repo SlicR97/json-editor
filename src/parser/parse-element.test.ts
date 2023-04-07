@@ -1,110 +1,88 @@
-import { TokenType } from '../types/token-type.enum'
 import { parseElement } from './parse-element'
 import { TokenParseable } from '../util/token-parseable'
+import { scanJson } from '../scanner/scan-json'
 
 describe('parseElement', () => {
   it('parses a number when the first token is a number', () => {
-    const tokens = [
-      {
-        type: TokenType.number,
-        value: '1',
-      },
-    ]
+    const str = '1'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'number',
       value: '1',
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses a string when the first token is a string', () => {
-    const tokens = [
-      {
-        type: TokenType.string,
-        value: 'abc',
-      },
-    ]
+    const str = '"abc"'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'string',
       value: 'abc',
+      line: 1,
+      column: 2,
     })
   })
 
   it('parses a boolean when the first token is a true', () => {
-    const tokens = [
-      {
-        type: TokenType.true,
-        value: '',
-      },
-    ]
+    const str = 'true'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: true,
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses a boolean when the first token is a false', () => {
-    const tokens = [
-      {
-        type: TokenType.false,
-        value: '',
-      },
-    ]
+    const str = 'false'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: false,
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses a null when the first token is a null', () => {
-    const tokens = [
-      {
-        type: TokenType.null,
-        value: '',
-      },
-    ]
+    const str = 'null'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'null',
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an array when the first token is an open bracket', () => {
-    const tokens = [
-      {
-        type: TokenType.openBracket,
-        value: '',
-      },
-      {
-        type: TokenType.closeBracket,
-        value: '',
-      },
-    ]
+    const str = '[]'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'array',
       value: [],
+      line: 1,
+      column: 1,
     })
   })
 
   it('parses an object when the first token is an open brace', () => {
-    const tokens = [
-      {
-        type: TokenType.openBrace,
-        value: '',
-      },
-      {
-        type: TokenType.closeBrace,
-        value: '',
-      },
-    ]
+    const str = '{}'
+    const tokens = scanJson(str)
     const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'object',
       value: {},
+      line: 1,
+      column: 1,
     })
   })
 })

@@ -8,12 +8,16 @@ describe('parseString', () => {
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 1,
       },
     ]
     const json = parseString(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'string',
       value: 'abc',
+      line: 1,
+      column: 1,
     })
   })
 })
