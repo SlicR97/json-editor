@@ -1,7 +1,8 @@
 import { Token } from '../types/token.type'
-import { JNumber, Json } from '../types/jobject.type'
+import { Json } from '../types/jobject.type'
 import { TokenType } from '../types/token-type.enum'
-import { Parseable } from './parseable'
+import { Parseable } from '../util/parseable'
+import { parseElement } from './parse-element'
 
 export const parseJson = (json: Token[]): Json => {
   const parseable = new Parseable(json, {
@@ -9,49 +10,5 @@ export const parseJson = (json: Token[]): Json => {
     value: '',
   })
 
-  return element(parseable)
-}
-
-const element = (parseable: Parseable<Token>): Json => {
-  if (parseable.peek().type === TokenType.number) {
-    return number(parseable)
-  }
-
-  if (
-    parseable.peek().type === TokenType.true ||
-    parseable.peek().type === TokenType.false
-  ) {
-    return boolean(parseable)
-  }
-
-  if (parseable.peek().type === TokenType.null) {
-    return nullValue(parseable)
-  }
-
-  return {
-    type: 'null',
-  }
-}
-
-const number = (parseable: Parseable<Token>): JNumber => {
-  const token = parseable.advance()!
-  return {
-    type: 'number',
-    value: token.value,
-  }
-}
-
-const boolean = (parseable: Parseable<Token>): Json => {
-  const token = parseable.advance()!
-  return {
-    type: 'boolean',
-    value: token.type === TokenType.true,
-  }
-}
-
-const nullValue = (parseable: Parseable<Token>): Json => {
-  parseable.advance()
-  return {
-    type: 'null',
-  }
+  return parseElement(parseable)
 }

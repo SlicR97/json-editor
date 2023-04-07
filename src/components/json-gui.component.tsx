@@ -1,5 +1,5 @@
 import { Json } from '../types/jobject.type'
-import { toJsonString } from '../parser/to-json-string'
+import { toJsonString } from '../util/to-json-string'
 
 type Props = {
   json: Json

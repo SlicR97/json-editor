@@ -20,19 +20,18 @@ export class Parseable<T> {
     return this.current >= this.elements.length
   }
 
-  advance() {
-    this._current += 1
+  advance(positions = 1) {
+    this._current += positions
     return this.elements[this.current - 1]
   }
 
-  peek() {
-    if (this.isAtEnd()) return this.end
-    return this.elements[this.current]!
+  peek(offset = 0) {
+    if (this.current + offset >= this.elements.length) return this.end
+    return this.elements[this.current + offset]!
   }
 
   peekNext() {
-    if (this.current + 1 >= this.elements.length) return this.end
-    return this.elements[this.current + 1]!
+    return this.peek(1)
   }
 
   slice() {
