@@ -1,10 +1,10 @@
 import { scanNumber } from './scan-number'
-import { Parseable } from '../util/parseable'
 import { TokenType } from '../types/token-type.enum'
+import { StringParseable } from '../util/string-parseable'
 
 describe('scanNumber', () => {
   it('returns a number token', () => {
-    const parseable = new Parseable(['1', '2', '3'], '\0')
+    const parseable = new StringParseable('123')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123',
@@ -12,7 +12,7 @@ describe('scanNumber', () => {
   })
 
   it('returns a number token with a decimal', () => {
-    const parseable = new Parseable(['1', '.', '2', '3'], '\0')
+    const parseable = new StringParseable('1.23')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '1.23',
@@ -20,7 +20,7 @@ describe('scanNumber', () => {
   })
 
   it('returns a number token with an exponent', () => {
-    const parseable = new Parseable(['1', '2', '3', 'e', '4'], '\0')
+    const parseable = new StringParseable('123e4')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e4',
@@ -28,7 +28,7 @@ describe('scanNumber', () => {
   })
 
   it('returns a number token with a negative exponent', () => {
-    const parseable = new Parseable(['1', '2', '3', 'e', '-', '4'], '\0')
+    const parseable = new StringParseable('123e-4')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e-4',
@@ -36,7 +36,7 @@ describe('scanNumber', () => {
   })
 
   it('returns a number token with a positive exponent', () => {
-    const parseable = new Parseable(['1', '2', '3', 'e', '+', '4'], '\0')
+    const parseable = new StringParseable('123e+4')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e+4',
@@ -44,7 +44,7 @@ describe('scanNumber', () => {
   })
 
   it('returns a number token with a decimal and an exponent', () => {
-    const parseable = new Parseable(['1', '.', '2', '3', 'e', '4'], '\0')
+    const parseable = new StringParseable('1.23e4')
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '1.23e4',

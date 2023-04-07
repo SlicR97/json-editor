@@ -1,6 +1,6 @@
 import { TokenType } from '../types/token-type.enum'
 import { parseString } from './parse-string'
-import { Parseable } from '../util/parseable'
+import { TokenParseable } from '../util/token-parseable'
 
 describe('parseString', () => {
   it('parses a string', () => {
@@ -10,9 +10,7 @@ describe('parseString', () => {
         value: 'abc',
       },
     ]
-    const json = parseString(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseString(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'string',
       value: 'abc',

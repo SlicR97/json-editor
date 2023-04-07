@@ -1,10 +1,10 @@
-import { Parseable } from '../util/parseable'
 import { Token } from '../types/token.type'
 import { isDigit } from '../util/is-digit'
 import { isSign } from '../util/is-sign'
 import { TokenType } from '../types/token-type.enum'
+import { StringParseable } from '../util/string-parseable'
 
-export const scanNumber = (parseable: Parseable<string>): Token => {
+export const scanNumber = (parseable: StringParseable): Token => {
   while (isDigit(parseable.peek())) {
     parseable.advance()
   }

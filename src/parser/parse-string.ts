@@ -1,8 +1,7 @@
-import { Parseable } from '../util/parseable'
-import { Token } from '../types/token.type'
 import { Json } from '../types/jobject.type'
+import { TokenParseable } from '../util/token-parseable'
 
-export const parseString = (parseable: Parseable<Token>): Json => {
+export const parseString = (parseable: TokenParseable): Json => {
   const token = parseable.advance()!
   return {
     type: 'string',

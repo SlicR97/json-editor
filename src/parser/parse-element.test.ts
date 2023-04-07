@@ -1,6 +1,6 @@
 import { TokenType } from '../types/token-type.enum'
-import { Parseable } from '../util/parseable'
 import { parseElement } from './parse-element'
+import { TokenParseable } from '../util/token-parseable'
 
 describe('parseElement', () => {
   it('parses a number when the first token is a number', () => {
@@ -10,9 +10,7 @@ describe('parseElement', () => {
         value: '1',
       },
     ]
-    const json = parseElement(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'number',
       value: '1',
@@ -26,9 +24,7 @@ describe('parseElement', () => {
         value: 'abc',
       },
     ]
-    const json = parseElement(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'string',
       value: 'abc',
@@ -42,9 +38,7 @@ describe('parseElement', () => {
         value: '',
       },
     ]
-    const json = parseElement(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: true,
@@ -58,9 +52,7 @@ describe('parseElement', () => {
         value: '',
       },
     ]
-    const json = parseElement(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'boolean',
       value: false,
@@ -74,11 +66,27 @@ describe('parseElement', () => {
         value: '',
       },
     ]
-    const json = parseElement(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseElement(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'null',
+    })
+  })
+
+  it('parses an array when the first token is an open bracket', () => {
+    const tokens = [
+      {
+        type: TokenType.openBracket,
+        value: '',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: '',
+      },
+    ]
+    const json = parseElement(new TokenParseable(tokens))
+    expect(json).toEqual({
+      type: 'array',
+      value: [],
     })
   })
 })

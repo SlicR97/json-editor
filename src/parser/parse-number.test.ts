@@ -1,6 +1,6 @@
 import { TokenType } from '../types/token-type.enum'
 import { parseNumber } from './parse-number'
-import { Parseable } from '../util/parseable'
+import { TokenParseable } from '../util/token-parseable'
 
 describe('parseNumber', () => {
   it('parses a number', () => {
@@ -10,9 +10,7 @@ describe('parseNumber', () => {
         value: '1',
       },
     ]
-    const json = parseNumber(
-      new Parseable(tokens, { type: TokenType.eof, value: '' }),
-    )
+    const json = parseNumber(new TokenParseable(tokens))
     expect(json).toEqual({
       type: 'number',
       value: '1',
