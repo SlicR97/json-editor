@@ -10,6 +10,8 @@ const identifiers: Record<string, TokenType> = {
 }
 
 export const scanIdentifier = (parseable: StringParseable): Token => {
+  const column = parseable.currentColumn
+
   while (isAlpha(parseable.peek())) {
     parseable.advance()
   }
@@ -21,6 +23,8 @@ export const scanIdentifier = (parseable: StringParseable): Token => {
     return {
       type,
       value,
+      line: parseable.currentLine,
+      column: column,
     }
   }
 

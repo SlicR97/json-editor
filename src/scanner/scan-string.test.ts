@@ -13,6 +13,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'aB_',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -21,6 +23,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\"bc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -29,6 +33,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\\\bc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -37,6 +43,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\/bc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -45,6 +53,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\\\bbc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -53,6 +63,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\fbc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -61,6 +73,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\nbc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -69,6 +83,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\rbc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -77,6 +93,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\tbc',
+      line: 1,
+      column: 2,
     })
   })
 
@@ -85,6 +103,8 @@ describe('scanString', () => {
     expect(scanString(parseable)).toEqual({
       type: TokenType.string,
       value: 'a\\u0000bc',
+      line: 1,
+      column: 2,
     })
   })
 

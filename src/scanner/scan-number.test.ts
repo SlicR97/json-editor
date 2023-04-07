@@ -8,6 +8,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -16,6 +18,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '1.23',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -24,6 +28,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e4',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -32,6 +38,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e-4',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -40,6 +48,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '123e+4',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -48,6 +58,8 @@ describe('scanNumber', () => {
     expect(scanNumber(parseable)).toEqual({
       type: TokenType.number,
       value: '1.23e4',
+      line: 1,
+      column: 1,
     })
   })
 })

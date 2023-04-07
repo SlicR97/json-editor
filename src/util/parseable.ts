@@ -2,14 +2,6 @@ export class Parseable<T> {
   private _start = 0
   private _current = 0
 
-  get start() {
-    return this._start
-  }
-
-  get current() {
-    return this._current
-  }
-
   constructor(
     private readonly elements: T[],
     private readonly end: T,
@@ -17,11 +9,11 @@ export class Parseable<T> {
   ) {}
 
   synchronize() {
-    this._start = this.current
+    this._start = this._current
   }
 
   isAtEnd() {
-    return this.current >= this.elements.length
+    return this._current >= this.elements.length
   }
 
   consume(value: T, message: string): T {
@@ -37,7 +29,8 @@ export class Parseable<T> {
 
   advance(positions = 1) {
     this._current += positions
-    const element = this.elements[this.current - 1]
+
+    const element = this.elements[this._current - 1]
     if (element) {
       return element
     }
@@ -46,8 +39,8 @@ export class Parseable<T> {
   }
 
   peek(offset = 0) {
-    if (this.current + offset >= this.elements.length) return this.end
-    return this.elements[this.current + offset]!
+    if (this._current + offset >= this.elements.length) return this.end
+    return this.elements[this._current + offset]!
   }
 
   peekNext() {
@@ -55,6 +48,6 @@ export class Parseable<T> {
   }
 
   slice() {
-    return this.elements.slice(this.start, this.current)
+    return this.elements.slice(this._start, this._current)
   }
 }

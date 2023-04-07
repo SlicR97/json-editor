@@ -8,6 +8,8 @@ describe('scanIdentifier', () => {
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.true,
       value: 'true',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -16,6 +18,8 @@ describe('scanIdentifier', () => {
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.false,
       value: 'false',
+      line: 1,
+      column: 1,
     })
   })
 
@@ -24,6 +28,8 @@ describe('scanIdentifier', () => {
     expect(scanIdentifier(parseable)).toEqual({
       type: TokenType.null,
       value: 'null',
+      line: 1,
+      column: 1,
     })
   })
 

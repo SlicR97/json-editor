@@ -4,11 +4,16 @@ import { TokenType } from '../types/token-type.enum'
 import { parseElement } from './parse-element'
 
 export const parseObject = (parseable: TokenParseable): Json => {
-  parseable.consume(TokenType.openBrace, 'Expected "{" at start of object')
+  const openBrace = parseable.consume(
+    TokenType.openBrace,
+    'Expected "{" at start of object',
+  )
 
   const object: Json = {
     type: 'object',
     value: {},
+    line: openBrace.line,
+    column: openBrace.column,
   }
 
   while (

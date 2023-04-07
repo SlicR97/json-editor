@@ -9,6 +9,8 @@ export const scanString = (parseable: StringParseable): Token => {
     throw new Error('Expected open quote')
   }
 
+  const column = parseable.currentColumn
+
   while (parseable.peek() !== '"' && !parseable.isAtEnd()) {
     if (parseable.peek() === '\\') {
       if (
@@ -46,5 +48,7 @@ export const scanString = (parseable: StringParseable): Token => {
   return {
     type: TokenType.string,
     value,
+    line: parseable.currentLine,
+    column: column,
   }
 }

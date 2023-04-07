@@ -5,6 +5,8 @@ import { TokenType } from '../types/token-type.enum'
 import { StringParseable } from '../util/string-parseable'
 
 export const scanNumber = (parseable: StringParseable): Token => {
+  const column = parseable.currentColumn
+
   while (isDigit(parseable.peek())) {
     parseable.advance()
   }
@@ -37,5 +39,7 @@ export const scanNumber = (parseable: StringParseable): Token => {
   return {
     type: TokenType.number,
     value,
+    line: parseable.currentLine,
+    column: column,
   }
 }

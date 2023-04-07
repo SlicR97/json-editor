@@ -17,32 +17,82 @@ export const scanJson = (json: string): Token[] => {
 
     switch (c) {
       case '{': {
-        tokens.push({ type: TokenType.openBrace, value: c })
+        tokens.push({
+          type: TokenType.openBrace,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
       case '}': {
-        tokens.push({ type: TokenType.closeBrace, value: c })
+        tokens.push({
+          type: TokenType.closeBrace,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
       case ':': {
-        tokens.push({ type: TokenType.colon, value: c })
+        tokens.push({
+          type: TokenType.colon,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
+      case ' ': {
+        parseable.advance()
+        break
+      }
+      case '\n': {
+        parseable.advanceLine()
+        break
+      }
+      case '\t': {
+        parseable.advance()
+        break
+      }
+      case '\r': {
+        parseable.advance(1, false)
+        break
+      }
+      case '\f': {
+        parseable.advance(1, false)
+        break
+      }
       case '[': {
-        tokens.push({ type: TokenType.openBracket, value: c })
+        tokens.push({
+          type: TokenType.openBracket,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
       case ']': {
-        tokens.push({ type: TokenType.closeBracket, value: c })
+        tokens.push({
+          type: TokenType.closeBracket,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
       case ',': {
-        tokens.push({ type: TokenType.comma, value: c })
+        tokens.push({
+          type: TokenType.comma,
+          value: c,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
         parseable.advance()
         break
       }
@@ -59,9 +109,9 @@ export const scanJson = (json: string): Token[] => {
           const token = scanIdentifier(parseable)
           tokens.push(token)
           break
-        } else {
-          parseable.advance()
         }
+
+        throw new Error(`Unexpected character: ${c}`)
       }
     }
   }

@@ -1,30 +1,35 @@
 /* istanbul ignore file */
 
-export type JNull = {
+type JMeta = {
+  line: number
+  column: number
+}
+
+export type JNull = JMeta & {
   type: 'null'
 }
 
-export type JBoolean = {
+export type JBoolean = JMeta & {
   type: 'boolean'
   value: boolean
 }
 
-export type JNumber = {
+export type JNumber = JMeta & {
   type: 'number'
   value: string
 }
 
-export type JString = {
+export type JString = JMeta & {
   type: 'string'
   value: string
 }
 
-export type JArray = {
+export type JArray = JMeta & {
   type: 'array'
   value: Element[]
 }
 
-export type JObject = {
+export type JObject = JMeta & {
   type: 'object'
   value: {
     [key: string]: Element

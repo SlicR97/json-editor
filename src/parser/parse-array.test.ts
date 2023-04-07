@@ -8,15 +8,21 @@ describe('parseArray', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 2,
       },
     ])
     expect(parseArray(parseable)).toEqual({
       type: 'array',
       value: [],
+      line: 1,
+      column: 1,
     })
   })
 
@@ -25,14 +31,20 @@ describe('parseArray', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 2,
+        column: 2,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 3,
+        column: 1,
       },
     ])
     expect(parseArray(parseable)).toEqual({
@@ -41,8 +53,12 @@ describe('parseArray', () => {
         {
           type: 'string',
           value: 'abc',
+          line: 2,
+          column: 2,
         },
       ],
+      line: 1,
+      column: 1,
     })
   })
 
@@ -51,22 +67,32 @@ describe('parseArray', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 2,
+        column: 2,
       },
       {
         type: TokenType.comma,
         value: ',',
+        line: 2,
+        column: 3,
       },
       {
         type: TokenType.number,
         value: '123',
+        line: 3,
+        column: 2,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 4,
+        column: 1,
       },
     ])
     expect(parseArray(parseable)).toEqual({
@@ -75,12 +101,18 @@ describe('parseArray', () => {
         {
           type: 'string',
           value: 'abc',
+          line: 2,
+          column: 2,
         },
         {
           type: 'number',
           value: '123',
+          line: 3,
+          column: 2,
         },
       ],
+      line: 1,
+      column: 1,
     })
   })
 
@@ -89,10 +121,14 @@ describe('parseArray', () => {
       {
         type: TokenType.openBracket,
         value: '[',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.string,
         value: 'abc',
+        line: 2,
+        column: 2,
       },
     ])
     expect(() => parseArray(parseable)).toThrow('Expected "]"')
@@ -103,10 +139,14 @@ describe('parseArray', () => {
       {
         type: TokenType.string,
         value: 'abc',
+        line: 1,
+        column: 1,
       },
       {
         type: TokenType.closeBracket,
         value: ']',
+        line: 1,
+        column: 2,
       },
     ])
     expect(() => parseArray(parseable)).toThrow('Expected "["')

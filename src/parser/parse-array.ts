@@ -4,7 +4,7 @@ import { parseElement } from './parse-element'
 import { TokenParseable } from '../util/token-parseable'
 
 export const parseArray = (parseable: TokenParseable): Json => {
-  parseable.consume(TokenType.openBracket, 'Expected "["')
+  const openBracket = parseable.consume(TokenType.openBracket, 'Expected "["')
 
   const elements: Json[] = []
 
@@ -24,5 +24,7 @@ export const parseArray = (parseable: TokenParseable): Json => {
   return {
     type: 'array',
     value: elements,
+    line: openBracket.line,
+    column: openBracket.column,
   }
 }

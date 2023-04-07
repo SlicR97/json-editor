@@ -7,5 +7,7 @@ export const parseBoolean = (parseable: TokenParseable): Json => {
   return {
     type: 'boolean',
     value: token.type === TokenType.true,
+    line: token.line,
+    column: token.column,
   }
 }

@@ -6,5 +6,7 @@ export const parseNumber = (parseable: TokenParseable): JNumber => {
   return {
     type: 'number',
     value: token.value,
+    line: token.line,
+    column: token.column,
   }
 }
