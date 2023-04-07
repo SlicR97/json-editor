@@ -6,29 +6,32 @@ import { parseNull } from './parse-null'
 import { parseString } from './parse-string'
 import { parseArray } from './parse-array'
 import { TokenParseable } from '../util/token-parseable'
+import { parseObject } from './parse-object'
 
 export const parseElement = (parseable: TokenParseable): Json => {
-  if (parseable.peek().type === TokenType.number) {
+  const next = parseable.peek()
+  if (next.type === TokenType.number) {
     return parseNumber(parseable)
   }
 
-  if (
-    parseable.peek().type === TokenType.true ||
-    parseable.peek().type === TokenType.false
-  ) {
+  if (next.type === TokenType.true || next.type === TokenType.false) {
     return parseBoolean(parseable)
   }
 
-  if (parseable.peek().type === TokenType.null) {
+  if (next.type === TokenType.null) {
     return parseNull(parseable)
   }
 
-  if (parseable.peek().type === TokenType.string) {
+  if (next.type === TokenType.string) {
     return parseString(parseable)
   }
 
-  if (parseable.peek().type === TokenType.openBracket) {
+  if (next.type === TokenType.openBracket) {
     return parseArray(parseable)
+  }
+
+  if (next.type === TokenType.openBrace) {
+    return parseObject(parseable)
   }
 
   return {

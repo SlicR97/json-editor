@@ -16,6 +16,21 @@ export const scanJson = (json: string): Token[] => {
     const c = parseable.peek()!
 
     switch (c) {
+      case '{': {
+        tokens.push({ type: TokenType.openBrace, value: c })
+        parseable.advance()
+        break
+      }
+      case '}': {
+        tokens.push({ type: TokenType.closeBrace, value: c })
+        parseable.advance()
+        break
+      }
+      case ':': {
+        tokens.push({ type: TokenType.colon, value: c })
+        parseable.advance()
+        break
+      }
       case '[': {
         tokens.push({ type: TokenType.openBracket, value: c })
         parseable.advance()

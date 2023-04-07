@@ -57,6 +57,39 @@ describe('scanJson', () => {
     ])
   })
 
+  it('scans an array with nested arrays', () => {
+    expect(scanJson('["abc", [123]]')).toEqual([
+      {
+        type: TokenType.openBracket,
+        value: '[',
+      },
+      {
+        type: TokenType.string,
+        value: 'abc',
+      },
+      {
+        type: TokenType.comma,
+        value: ',',
+      },
+      {
+        type: TokenType.openBracket,
+        value: '[',
+      },
+      {
+        type: TokenType.number,
+        value: '123',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: ']',
+      },
+      {
+        type: TokenType.closeBracket,
+        value: ']',
+      },
+    ])
+  })
+
   it('returns an empty array when the string is empty', () => {
     expect(scanJson('')).toEqual([])
   })
@@ -106,6 +139,31 @@ describe('scanJson', () => {
       {
         type: TokenType.null,
         value: 'null',
+      },
+    ])
+  })
+
+  it('scan an object', () => {
+    expect(scanJson('{"a": 123}')).toEqual([
+      {
+        type: TokenType.openBrace,
+        value: '{',
+      },
+      {
+        type: TokenType.string,
+        value: 'a',
+      },
+      {
+        type: TokenType.colon,
+        value: ':',
+      },
+      {
+        type: TokenType.number,
+        value: '123',
+      },
+      {
+        type: TokenType.closeBrace,
+        value: '}',
       },
     ])
   })

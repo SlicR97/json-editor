@@ -10,4 +10,7 @@ export enum TokenType {
   openBracket = 'open-bracket',
   closeBracket = 'close-bracket',
   comma = 'comma',
+  openBrace = 'open-brace',
+  closeBrace = 'close-brace',
+  colon = 'colon',
 }
