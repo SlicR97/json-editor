@@ -16,7 +16,7 @@ const JsonEditor = (props: Props) => {
       height="100%"
       defaultLanguage="json"
       defaultValue={jsonString}
-      onChange={(v) => props.onChange(v)}
+      onChange={props.onChange}
     />
   )
 }

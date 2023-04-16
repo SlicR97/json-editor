@@ -2,14 +2,23 @@ import { Token } from '../types/token.type'
 import { isDigit } from '../util/is-digit'
 import { TokenType } from '../types/token-type.enum'
 import { StringParseable } from '../util/string-parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
-export const scanString = (parseable: StringParseable): Token => {
+export const scanString = (
+  parseable: StringParseable,
+): Result<Token, ParseableError> => {
+  const column = parseable.currentColumn
+  const line = parseable.currentLine
+
   const openQuote = parseable.advance()
   if (openQuote !== '"') {
-    throw new Error('Expected open quote')
+    return Result.failure({
+      message: 'Expected open quote',
+      line: line,
+      column: column,
+    })
   }
-
-  const column = parseable.currentColumn
 
   while (parseable.peek() !== '"' && !parseable.isAtEnd()) {
     if (parseable.peek() === '\\') {
@@ -31,24 +40,32 @@ export const scanString = (parseable: StringParseable): Token => {
         continue
       }
 
-      throw new Error('Invalid escape sequence')
+      return Result.failure({
+        message: 'Invalid escape sequence',
+        line: line,
+        column: column,
+      })
     }
 
     parseable.advance()
   }
 
   if (parseable.isAtEnd()) {
-    throw new Error('Unterminated string')
+    return Result.failure({
+      message: 'Unterminated string',
+      line: line,
+      column: column,
+    })
   }
 
   const value = parseable.slice().join('').replace('"', '')
 
   parseable.advance()
 
-  return {
+  return Result.success({
     type: TokenType.string,
     value,
-    line: parseable.currentLine,
+    line: line,
     column: column,
-  }
+  })
 }
