@@ -1,3 +1,6 @@
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
+
 export class Parseable<T> {
   private _start = 0
   private _current = 0
@@ -16,10 +19,16 @@ export class Parseable<T> {
     return this._current >= this.elements.length
   }
 
-  consume(value: T, message: string): T {
-    if (this.check(value)) return this.advance()!
+  consume(value: T, message: string): Result<T, ParseableError> {
+    if (this.check(value)) {
+      return Result.success(this.advance()!)
+    }
 
-    throw new Error(message)
+    return Result.failure({
+      message,
+      line: 0,
+      column: 0,
+    })
   }
 
   check(value: T) {

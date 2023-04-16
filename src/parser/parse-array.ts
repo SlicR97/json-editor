@@ -1,10 +1,20 @@
-import { Json } from '../types/jobject.type'
+import { JArray, Json } from '../types/jobject.type'
 import { TokenType } from '../types/token-type.enum'
 import { parseElement } from './parse-element'
 import { TokenParseable } from '../util/token-parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
-export const parseArray = (parseable: TokenParseable): Json => {
-  const openBracket = parseable.consume(TokenType.openBracket, 'Expected "["')
+export const parseArray = (
+  parseable: TokenParseable,
+): Result<JArray, ParseableError> => {
+  const openBracketResult = parseable.consume(
+    TokenType.openBracket,
+    'Expected "["',
+  )
+  if (!openBracketResult.isSuccess) {
+    return openBracketResult
+  }
 
   const elements: Json[] = []
 
@@ -12,19 +22,44 @@ export const parseArray = (parseable: TokenParseable): Json => {
     parseable.peek().type !== TokenType.closeBracket &&
     !parseable.isAtEnd()
   ) {
-    elements.push(parseElement(parseable))
+    const elementResult = parseElement(parseable)
+    if (!elementResult.isSuccess) {
+      return elementResult
+    }
 
-    if (parseable.peek().type === TokenType.comma) {
-      parseable.advance()
+    elements.push(elementResult.value)
+
+    if (parseable.peek().type !== TokenType.closeBracket) {
+      const commaResult = parseable.consume(
+        TokenType.comma,
+        'Expected "," after element',
+      )
+      if (!commaResult.isSuccess) {
+        return Result.mapError(commaResult, (error) => ({
+          ...error,
+          line: openBracketResult.value.line,
+          column: openBracketResult.value.column,
+        }))
+      }
     }
   }
 
-  parseable.consume(TokenType.closeBracket, 'Expected "]"')
+  const closeBracketResult = parseable.consume(
+    TokenType.closeBracket,
+    'Expected "]"',
+  )
+  if (!closeBracketResult.isSuccess) {
+    return Result.mapError(closeBracketResult, (error) => ({
+      ...error,
+      line: openBracketResult.value.line,
+      column: openBracketResult.value.column,
+    }))
+  }
 
-  return {
+  return Result.success({
     type: 'array',
     value: elements,
-    line: openBracket.line,
-    column: openBracket.column,
-  }
+    line: openBracketResult.value.line,
+    column: openBracketResult.value.column,
+  })
 }

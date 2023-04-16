@@ -1,12 +1,24 @@
-import { Json } from '../types/jobject.type'
+import { JString } from '../types/jobject.type'
 import { TokenParseable } from '../util/token-parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
-export const parseString = (parseable: TokenParseable): Json => {
-  const token = parseable.advance()!
-  return {
-    type: 'string',
-    value: token.value,
-    line: token.line,
-    column: token.column,
+export const parseString = (
+  parseable: TokenParseable,
+): Result<JString, ParseableError> => {
+  const stringToken = parseable.advance()
+  if (stringToken.type !== 'string') {
+    return Result.failure({
+      message: 'Expected string',
+      line: stringToken.line,
+      column: stringToken.column,
+    })
   }
+
+  return Result.success({
+    type: 'string',
+    value: stringToken.value,
+    line: stringToken.line,
+    column: stringToken.column,
+  })
 }

@@ -1,9 +1,13 @@
 import { scanJson } from './scan-json'
 import { TokenType } from '../types/token-type.enum'
+import { Result } from '../types/result.type'
 
 describe('scanJson', () => {
   it('scans an empty array', () => {
-    expect(scanJson('[]')).toEqual([
+    const result = scanJson('[]')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.openBracket,
         value: '[',
@@ -20,7 +24,10 @@ describe('scanJson', () => {
   })
 
   it('scans an array with a single string', () => {
-    expect(scanJson('["abc"]')).toEqual([
+    const result = scanJson('["abc"]')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.openBracket,
         value: '[',
@@ -31,7 +38,7 @@ describe('scanJson', () => {
         type: TokenType.string,
         value: 'abc',
         line: 1,
-        column: 3,
+        column: 2,
       },
       {
         type: TokenType.closeBracket,
@@ -43,7 +50,10 @@ describe('scanJson', () => {
   })
 
   it('scans an array with multiple elements', () => {
-    expect(scanJson('["abc", 123]')).toEqual([
+    const result = scanJson('["abc", 123]')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.openBracket,
         value: '[',
@@ -54,7 +64,7 @@ describe('scanJson', () => {
         type: TokenType.string,
         value: 'abc',
         line: 1,
-        column: 3,
+        column: 2,
       },
       {
         type: TokenType.comma,
@@ -78,7 +88,10 @@ describe('scanJson', () => {
   })
 
   it('scans an array with nested arrays', () => {
-    expect(scanJson('["abc", [123]]')).toEqual([
+    const result = scanJson('["abc", [123]]')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.openBracket,
         value: '[',
@@ -89,7 +102,7 @@ describe('scanJson', () => {
         type: TokenType.string,
         value: 'abc',
         line: 1,
-        column: 3,
+        column: 2,
       },
       {
         type: TokenType.comma,
@@ -125,26 +138,42 @@ describe('scanJson', () => {
   })
 
   it('returns an empty array when the string is empty', () => {
-    expect(scanJson('')).toEqual([])
+    const result = scanJson('')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([])
   })
 
-  it('returns an empty array when the string is not valid JSON', () => {
-    expect(() => scanJson('abc')).toThrow()
+  it('returns failure when the string is not valid JSON', () => {
+    const result = scanJson('abc')
+
+    expect(result.isSuccess).toBe(false)
+    expect(Result.error(result)).toEqual({
+      message: 'Unexpected identifier',
+      line: 1,
+      column: 1,
+    })
   })
 
   it('returns a string token when the string is a string', () => {
-    expect(scanJson('"abc"')).toEqual([
+    const result = scanJson('"abc"')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.string,
         value: 'abc',
         line: 1,
-        column: 2,
+        column: 1,
       },
     ])
   })
 
   it('returns an array of tokens when the string is valid JSON', () => {
-    expect(scanJson('123')).toEqual([
+    const result = scanJson('123')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.number,
         value: '123',
@@ -155,7 +184,10 @@ describe('scanJson', () => {
   })
 
   it('ignores whitespace', () => {
-    expect(scanJson('\n\n\t\r\f 123 ')).toEqual([
+    const result = scanJson('\n\n\t\r\f 123 ')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.number,
         value: '123',
@@ -166,7 +198,10 @@ describe('scanJson', () => {
   })
 
   it('returns a true token when the string is true', () => {
-    expect(scanJson('true')).toEqual([
+    const result = scanJson('true')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.true,
         value: 'true',
@@ -177,7 +212,10 @@ describe('scanJson', () => {
   })
 
   it('returns a false token when the string is false', () => {
-    expect(scanJson('false')).toEqual([
+    const result = scanJson('false')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.false,
         value: 'false',
@@ -188,7 +226,10 @@ describe('scanJson', () => {
   })
 
   it('returns a null token when the string is null', () => {
-    expect(scanJson('null')).toEqual([
+    const result = scanJson('null')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.null,
         value: 'null',
@@ -198,8 +239,11 @@ describe('scanJson', () => {
     ])
   })
 
-  it('scan an object', () => {
-    expect(scanJson('{"a": 123}')).toEqual([
+  it('scans an object', () => {
+    const result = scanJson('{"a": 123}')
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual([
       {
         type: TokenType.openBrace,
         value: '{',
@@ -210,7 +254,7 @@ describe('scanJson', () => {
         type: TokenType.string,
         value: 'a',
         line: 1,
-        column: 3,
+        column: 2,
       },
       {
         type: TokenType.colon,
@@ -233,7 +277,36 @@ describe('scanJson', () => {
     ])
   })
 
-  it('throws if it encounters an unknown character', () => {
-    expect(() => scanJson('\\abc')).toThrow()
+  it('returns a failure if it encounters an unknown character', () => {
+    const result = scanJson('\\abc')
+
+    expect(result.isSuccess).toBe(false)
+    expect(Result.error(result)).toEqual({
+      message: 'Unexpected character: \\',
+      line: 1,
+      column: 1,
+    })
+  })
+
+  it('returns a failure if it encounters an unterminated string', () => {
+    const result = scanJson('"abc')
+
+    expect(result.isSuccess).toBe(false)
+    expect(Result.error(result)).toEqual({
+      message: 'Unterminated string',
+      line: 1,
+      column: 1,
+    })
+  })
+
+  it('returns a failure if it encounters an invalid number', () => {
+    const result = scanJson('123e+-23')
+
+    expect(result.isSuccess).toBe(false)
+    expect(Result.error(result)).toEqual({
+      message: 'Expected digit after exponent sign, got "-"',
+      line: 1,
+      column: 6,
+    })
   })
 })

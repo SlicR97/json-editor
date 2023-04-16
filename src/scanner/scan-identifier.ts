@@ -2,6 +2,8 @@ import { Token } from '../types/token.type'
 import { isAlpha } from '../util/is-alpha'
 import { TokenType } from '../types/token-type.enum'
 import { StringParseable } from '../util/string-parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
 const identifiers: Record<string, TokenType> = {
   true: TokenType.true,
@@ -9,7 +11,9 @@ const identifiers: Record<string, TokenType> = {
   null: TokenType.null,
 }
 
-export const scanIdentifier = (parseable: StringParseable): Token => {
+export const scanIdentifier = (
+  parseable: StringParseable,
+): Result<Token, ParseableError> => {
   const column = parseable.currentColumn
 
   while (isAlpha(parseable.peek())) {
@@ -20,13 +24,17 @@ export const scanIdentifier = (parseable: StringParseable): Token => {
   const type = identifiers[value]
 
   if (type) {
-    return {
+    return Result.success({
       type,
       value,
       line: parseable.currentLine,
       column: column,
-    }
+    })
   }
 
-  throw new Error(`Unexpected identifier: ${value}`)
+  return Result.failure({
+    message: `Unexpected identifier`,
+    line: parseable.currentLine,
+    column: column,
+  })
 }

@@ -1,4 +1,6 @@
 import { Parseable } from './parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
 export class StringParseable extends Parseable<string> {
   private _currentLine = 1
@@ -28,5 +30,21 @@ export class StringParseable extends Parseable<string> {
   override advance(positions = 1, advanceColumn = true) {
     if (advanceColumn) this._currentColumn += positions
     return super.advance(positions)
+  }
+
+  override consume(
+    value: string,
+    message: string,
+  ): Result<string, ParseableError> {
+    const line = this.currentLine
+    const column = this.currentColumn
+
+    const result = super.consume(value, message)
+
+    return Result.mapError(result, (error) => ({
+      ...error,
+      line,
+      column,
+    }))
   }
 }

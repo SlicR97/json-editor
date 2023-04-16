@@ -1,5 +1,6 @@
 import { TokenParseable } from './token-parseable'
 import { TokenType } from '../types/token-type.enum'
+import { Result } from '../types/result.type'
 
 describe('TokenParseable', () => {
   it('passes the right eof token', () => {
@@ -43,16 +44,22 @@ describe('TokenParseable', () => {
       },
     ])
 
-    expect(
-      parseable.consume(
-        {
-          type: TokenType.string,
-          value: 'b',
-          line: 0,
-          column: 0,
-        },
-        'message',
-      ),
-    ).toEqual({ type: TokenType.string, value: 'b', line: 0, column: 0 })
+    const result = parseable.consume(
+      {
+        type: TokenType.string,
+        value: 'b',
+        line: 0,
+        column: 0,
+      },
+      'message',
+    )
+
+    expect(result.isSuccess).toBe(true)
+    expect(Result.value(result)).toEqual({
+      type: TokenType.string,
+      value: 'b',
+      line: 0,
+      column: 0,
+    })
   })
 })

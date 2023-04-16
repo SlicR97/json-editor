@@ -6,8 +6,10 @@ import { scanNumber } from './scan-number'
 import { scanString } from './scan-string'
 import { TokenType } from '../types/token-type.enum'
 import { StringParseable } from '../util/string-parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
-export const scanJson = (json: string): Token[] => {
+export const scanJson = (json: string): Result<Token[], ParseableError> => {
   const parseable = new StringParseable(json)
   const tokens: Token[] = []
 
@@ -97,24 +99,40 @@ export const scanJson = (json: string): Token[] => {
         break
       }
       case '"': {
-        const token = scanString(parseable)
-        tokens.push(token)
+        const tokenResult = scanString(parseable)
+        if (!tokenResult.isSuccess) {
+          return tokenResult
+        }
+
+        tokens.push(tokenResult.value)
         break
       }
       default: {
         if (isDigit(c)) {
-          tokens.push(scanNumber(parseable))
+          const tokenResult = scanNumber(parseable)
+          if (!tokenResult.isSuccess) {
+            return tokenResult
+          }
+          tokens.push(tokenResult.value)
           break
         } else if (isAlpha(c)) {
-          const token = scanIdentifier(parseable)
-          tokens.push(token)
+          const tokenResult = scanIdentifier(parseable)
+          if (!tokenResult.isSuccess) {
+            return tokenResult
+          }
+
+          tokens.push(tokenResult.value)
           break
         }
 
-        throw new Error(`Unexpected character: ${c}`)
+        return Result.failure({
+          message: `Unexpected character: ${c}`,
+          line: parseable.currentLine,
+          column: parseable.currentColumn,
+        })
       }
     }
   }
 
-  return tokens
+  return Result.success(tokens)
 }

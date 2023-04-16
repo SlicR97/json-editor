@@ -8,15 +8,18 @@ import { parseJson } from './parser/parse-json'
 import { Json } from './types/jobject.type'
 import { defaultValue } from './util/debug'
 import { scanJson } from './scanner/scan-json'
+import { Result } from './types/result.type'
 
 function App() {
   const [json, setJson] = useState<Json>(defaultValue)
 
   const onChange = (v: string | undefined) => {
     if (v) {
-      const tokens = scanJson(v)
-      const json = parseJson(tokens)
-      setJson(json)
+      const tokenResult = scanJson(v)
+      const jsonResult = Result.bind(tokenResult, parseJson)
+      if (jsonResult.isSuccess) {
+        setJson(jsonResult.value)
+      }
     }
   }
 

@@ -7,8 +7,12 @@ import { parseString } from './parse-string'
 import { parseArray } from './parse-array'
 import { TokenParseable } from '../util/token-parseable'
 import { parseObject } from './parse-object'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
-export const parseElement = (parseable: TokenParseable): Json => {
+export const parseElement = (
+  parseable: TokenParseable,
+): Result<Json, ParseableError> => {
   const next = parseable.peek()
   if (next.type === TokenType.number) {
     return parseNumber(parseable)
@@ -34,5 +38,9 @@ export const parseElement = (parseable: TokenParseable): Json => {
     return parseObject(parseable)
   }
 
-  throw new Error('Expected a value')
+  return Result.failure({
+    message: 'Expected a value',
+    line: next.line,
+    column: next.column,
+  })
 }

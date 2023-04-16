@@ -1,6 +1,8 @@
 import { TokenType } from '../types/token-type.enum'
 import { Token } from '../types/token.type'
 import { Parseable } from './parseable'
+import { Result } from '../types/result.type'
+import { ParseableError } from '../types/parseable-error.type'
 
 export class TokenParseable extends Parseable<Token> {
   constructor(input: Token[]) {
@@ -16,12 +18,23 @@ export class TokenParseable extends Parseable<Token> {
     )
   }
 
-  override consume(value: TokenType, message: string): Token
-  override consume(value: Token, message: string): Token
+  override consume(
+    value: TokenType,
+    message: string,
+  ): Result<Token, ParseableError>
+  override consume(value: Token, message: string): Result<Token, ParseableError>
 
-  override consume(value: Token | TokenType, message: string): Token {
+  override consume(
+    value: Token | TokenType,
+    message: string,
+  ): Result<Token, ParseableError> {
+    const currentToken = this.peek()
+    const line = currentToken.line
+    const column = currentToken.column
+
+    let result: Result<Token, ParseableError>
     if (Object.values(TokenType).includes(value as TokenType)) {
-      return super.consume(
+      result = super.consume(
         {
           type: value as TokenType,
           value: '',
@@ -30,8 +43,14 @@ export class TokenParseable extends Parseable<Token> {
         },
         message,
       )
+    } else {
+      result = super.consume(value as Token, message)
     }
 
-    return super.consume(value as Token, message)
+    return Result.mapError(result, (error) => ({
+      ...error,
+      line,
+      column,
+    }))
   }
 }
