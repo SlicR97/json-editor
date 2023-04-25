@@ -92,7 +92,7 @@ const renderJson = (json: Json, key: string) => {
 }
 
 const JsonGui = (props: Props) => {
-  return renderJson(props.json, '')
+  return <div className="m-1">{renderJson(props.json, '')}</div>
 }
 
 export default JsonGui

@@ -48,6 +48,30 @@ describe('Result', () => {
     })
   })
 
+  describe('bind', () => {
+    it('binds the value', () => {
+      const result = Result.success('hello')
+
+      expect(
+        Result.bind(result, (value) => Result.success(value.toUpperCase())),
+      ).toEqual({
+        isSuccess: true,
+        value: 'HELLO',
+      })
+    })
+
+    it('returns the failure result', () => {
+      const result = Result.failure<string, string>('error')
+
+      expect(
+        Result.bind(result, (value) => Result.success(value.toUpperCase())),
+      ).toEqual({
+        isSuccess: false,
+        error: 'error',
+      })
+    })
+  })
+
   describe('failure', () => {
     it('returns a failure result', () => {
       const result = Result.failure('error')
