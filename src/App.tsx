@@ -1,37 +1,22 @@
 import './App.css'
 
-import { Tab, Tabs } from 'react-bootstrap'
-import JsonGui from './components/json-gui.component'
-import JsonEditor from './components/json-editor.component'
-import { useState } from 'react'
-import { parseJson } from './parser/parse-json'
-import { Json } from './types/jobject.type'
-import { defaultValue } from './util/debug'
-import { scanJson } from './scanner/scan-json'
-import { Result } from './types/result.type'
+import Sidebar from './components/sidebar.component'
+import Main from './components/main.component'
 
 function App() {
-  const [json, setJson] = useState<Json>(defaultValue)
-
-  const onChange = (v: string | undefined) => {
-    if (v) {
-      const tokenResult = scanJson(v)
-      const jsonResult = Result.bind(tokenResult, parseJson)
-      if (jsonResult.isSuccess) {
-        setJson(jsonResult.value)
-      }
-    }
-  }
-
   return (
-    <Tabs defaultActiveKey="editor">
-      <Tab title="GUI" eventKey="gui">
-        <JsonGui json={json} />
-      </Tab>
-      <Tab title="Editor" eventKey="editor">
-        <JsonEditor onChange={onChange} json={json} />
-      </Tab>
-    </Tabs>
+    <div className="row h-100" style={{ backgroundColor: '#1e1e1e' }}>
+      <div className="col-2 pe-1 d-flex flex-column">
+        <div className="ms-2 my-2 bg-dark border flex-grow-1">
+          <Sidebar />
+        </div>
+      </div>
+      <div className="col-10 ps-1 d-flex flex-column">
+        <div className="me-2 my-2 bg-dark border flex-grow-1">
+          <Main />
+        </div>
+      </div>
+    </div>
   )
 }
 
