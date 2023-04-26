@@ -1,0 +1,17 @@
+.split-pane-row {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.separator-col {
+    border: 5px solid transparent;
+    cursor: col-resize;
+}
+
+.split-pane-right,
+.split-pane-left {
+    flex: 1;
+    overflow: hidden;
+}
