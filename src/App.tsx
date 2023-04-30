@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 
 import SplitPane from './components/split-pane.component'
 import Sidebar from './components/sidebar.component'
@@ -11,10 +11,7 @@ function App() {
         className="col-3 pe-1 d-flex flex-column w-100"
         style={{ height: '100vh' }}
       >
-        <div
-          className="ms-2 my-2 border flex-grow-1"
-          style={{ backgroundColor: '#2D2B55' }}
-        >
+        <div className="ms-2 my-2 border flex-grow-1">
           <Sidebar />
         </div>
       </div>
@@ -27,7 +24,7 @@ function App() {
         className="col-9 ps-1 d-flex flex-column w-100"
         style={{ height: '100vh' }}
       >
-        <div className="me-2 my-2 bg-dark border flex-grow-1">
+        <div className="me-2 my-2 flex-grow-1">
           <Main />
         </div>
       </div>
@@ -35,31 +32,10 @@ function App() {
   )
 
   return (
-    <div className="row h-100 app">
+    <div className="row h-100">
       <SplitPane initialLeftWidth={300} left={Left} right={Right} />
     </div>
   )
-
-  /*return (
-    <div className="row h-100" style={{ backgroundColor: '#1e1e1e' }}>
-      <SplitView 
-        left={(
-          <div className="col-3 pe-1 d-flex flex-column w-100" style={{ height: '100vh' }}>
-            <div className="ms-2 my-2 bg-dark border flex-grow-1">
-              <Sidebar />
-            </div>
-          </div>
-        )}
-        right={(
-          <div className="col-9 ps-1 d-flex flex-column w-100" style={{ height: '100vh' }}>
-            <div className="me-2 my-2 bg-dark border flex-grow-1">
-              <Main />
-            </div>
-          </div>
-        )}
-      />
-    </div>
-  )*/
 }
 
 export default App

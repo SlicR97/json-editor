@@ -1,4 +1,4 @@
-import './split-pane.component.css'
+import './split-pane.component.scss'
 
 import React, {
   createRef,
