@@ -1,3 +1,5 @@
+import './json-gui.component.scss'
+
 import { JArray, JObject, Json } from '../types/jobject.type'
 import { toJsonString } from '../util/to-json-string'
 import { useState } from 'react'
@@ -92,7 +94,7 @@ const renderJson = (json: Json, key: string) => {
 }
 
 const JsonGui = (props: Props) => {
-  return <div className="m-1">{renderJson(props.json, '')}</div>
+  return <div className="m-1 json-gui">{renderJson(props.json, '')}</div>
 }
 
 export default JsonGui

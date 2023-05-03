@@ -1,0 +1,46 @@
+$white: #FFFFFF;
+$black: #2D2B55;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$purple: #A599E9;
+$yellow: #FAD000;
+$pink: #FF628C;
+$indigo: #6610f2;
+
+$primary: $purple;
+$secondary: $yellow;
+$body-bg: $black;
+$body-color: $secondary;
+
+$input-bg: $black;
+$input-color: $secondary;
+$input-placeholder-color: $primary;
+$input-disabled-bg: $primary;
+$input-border-color: $indigo;
+$custom-file-button-color: $secondary;
+$input-group-addon-bg: $indigo;
+
+$pagination-bg: $black;
+$pagination-border-color: $primary;
+$pagination-color: $white;
+$pagination-hover-color: $indigo;
+$pagination-hover-bg: $primary;
+$pagination-hover-border-color: $primary;
+$pagination-disabled-bg: $gray-900;
+
+$border-color: $secondary;
+
+$card-bg: $black;
+$card-border-color: $secondary;
+
+$nav-tabs-border-color: 0;
+$nav-tabs-link-active-color: $secondary;
+$nav-tabs-link-active-border-color: $secondary;
+$nav-tabs-link-hover-border-color: $secondary;

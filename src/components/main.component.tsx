@@ -1,6 +1,5 @@
-import './main.component.css'
+import './main.component.scss'
 
-import { Tab, Tabs } from 'react-bootstrap'
 import JsonGui from './json-gui.component'
 import JsonEditor from './json-editor.component'
 import { useState } from 'react'
@@ -9,6 +8,7 @@ import { defaultValue } from '../util/debug'
 import { scanJson } from '../scanner/scan-json'
 import { Result } from '../types/result.type'
 import { parseJson } from '../parser/parse-json'
+import { Tab, Tabs } from 'react-bootstrap'
 
 const Main = () => {
   const [json, setJson] = useState<Json>(defaultValue)
@@ -24,8 +24,8 @@ const Main = () => {
   }
 
   return (
-    <Tabs defaultActiveKey="editor" className="d-flex">
-      <Tab title="GUI" eventKey="gui" className="overflow-y-scroll">
+    <Tabs defaultActiveKey="editor" className="d-flex border-1" justify={true}>
+      <Tab title="GUI" eventKey="gui" className="overflow-scroll">
         <JsonGui json={json} />
       </Tab>
       <Tab title="Editor" eventKey="editor">
