@@ -2,16 +2,19 @@ import './main.component.scss'
 
 import JsonGui from './json-gui.component'
 import JsonEditor from './json-editor.component'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Json } from '../types/jobject.type'
 import { defaultValue } from '../util/debug'
 import { scanJson } from '../scanner/scan-json'
 import { Result } from '../types/result.type'
 import { parseJson } from '../parser/parse-json'
 import { Tab, Tabs } from 'react-bootstrap'
+import { FileContext } from '../context/file.context'
 
 const Main = () => {
-  const [json, setJson] = useState<Json>(defaultValue)
+  const fileContext = useContext(FileContext)
+
+  const [json, setJson] = useState<Json | undefined>(undefined)
 
   const onChange = (v: string | undefined) => {
     if (v) {

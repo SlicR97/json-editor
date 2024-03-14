@@ -3,6 +3,7 @@ import './App.scss'
 import SplitPane from './components/split-pane.component'
 import Sidebar from './components/sidebar.component'
 import Main from './components/main.component'
+import { FileProvider } from './context/file.context'
 
 function App() {
   const Left = (
@@ -32,9 +33,11 @@ function App() {
   )
 
   return (
-    <div className="row h-100">
-      <SplitPane initialLeftWidth={300} left={Left} right={Right} />
-    </div>
+    <FileProvider>
+      <div className="row h-100">
+        <SplitPane initialLeftWidth={300} left={Left} right={Right} />
+      </div>
+    </FileProvider>
   )
 }
 

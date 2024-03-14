@@ -1,0 +1,18 @@
+{
+  "string": "string",
+  "number": 123,
+  "boolean": true,
+  "null": null,
+  "array": [
+    "string",
+    123,
+    true,
+    null
+  ],
+  "object": {
+    "string": "string",
+    "number": 123,
+    "boolean": true,
+    "null": null
+  }
+}
